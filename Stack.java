@@ -1,14 +1,12 @@
 
-public class Stack<E> {
-	private static final int CAPACITY = 1;
-	private E[] data;
-	private int size = 0;
+public class Stack {
+
+	private String [] stack;
+	private int size;
 	
-	public Stack(int size) {
-		data = (E[]) new Object[size];
-	}
-	public Stack() {
-		this(CAPACITY);
+	public Stack(){
+		this.stack = new String[1];
+		this.size = -1;
 	}
 
 	public int size() {
@@ -19,20 +17,25 @@ public class Stack<E> {
 		return (size == 0);
 	}
 
-	public void push(E e){
-		if (size == data.length - 1) {
-			resize(data.length * 2);
-			System.out.println(data.length + " " + e);
+	public void push(String value){
+		if(this.size+1 == this.stack.length){
+			this.resize();
 		}
-		data[size] = e;
-		size++;
+
+		this.size++;
+		this.stack[this.size] = value;
 	}
-	public void resize(int size) {
-		E[] temp = (E[]) new Object[size];
-		for (int i = 0; i < data.length; i++) {
-			temp[i] = data[i];
+
+	public void resize() {
+		int stackSize = this.stack.length;
+		String[] sizeArray = new String[stackSize*2];
+		
+		for(int i = 0; i < stackSize; i++){
+			sizeArray[i] = this.stack[i];
 		}
-		data = temp;
+
+		this.stack = new String[stackSize*2];
+		this.stack = sizeArray;
 	}
 
 	public E pop() {
