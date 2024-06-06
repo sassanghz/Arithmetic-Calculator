@@ -38,18 +38,37 @@ public class Stack {
 		this.stack = sizeArray;
 	}
 
-	public E pop() {
-		if (isEmpty())
-			return null;
-		E top = data[size];
-		data[size] = null;
-		size--;
-		return top;
+	public String pop() {
+		if (isEmpty()) return null;
+		
+		String lastElem = this.stack[this.size];
+		this.stack[this.size] = null;
+		this.size--;
+		return lastElem;
 	}
 
-	public E top() {
-		if (isEmpty())
-			return null;
-		return data[size];
+	public String peek(){
+		if(isEmpty()) return null;
+		return this.stack[this.size];
 	}
+
+	public void newSize(){
+		String [] newSTK = new String[this.size+1];
+
+		for(int i = 0; i < newSTK.length; i++){
+			newSTK[i] = this.stack[i];
+		}
+
+		this.stack = newSTK;
+	}
+
+	public void printStack(){
+		System.out.println("\nLast stack : " + this.size);
+		System.out.println("Elements in the following stacks are listed : ");
+
+		for(int i = 0; i < this.size+1; i++){
+			System.out.print(this.stack[i] + ", ");
+		}
+	}
+
 }
