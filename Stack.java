@@ -12,17 +12,14 @@ public class Stack<E> {
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
 		return size;
 	}
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return (size == 0);
 	}
 
 	public void push(E e){
-		// TODO Auto-generated method stub
 		if (size == data.length - 1) {
 			resize(data.length * 2);
 			System.out.println(data.length + " " + e);
@@ -39,7 +36,6 @@ public class Stack<E> {
 	}
 
 	public E pop() {
-		// TODO Auto-generated method stub
 		if (isEmpty())
 			return null;
 		E top = data[size];
@@ -49,7 +45,6 @@ public class Stack<E> {
 	}
 
 	public E top() {
-		// TODO Auto-generated method stub
 		if (isEmpty())
 			return null;
 		return data[size];
