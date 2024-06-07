@@ -60,5 +60,18 @@ public class Operate_Method {
         }
     }
 
+    public static String toString(String[] printOperand){
+        StringBuilder result = new StringBuilder();
+        for(int i = 0; i < printOperand.length; i++){
+            result.append(printOperand[i]);
+
+            if(i < printOperand.length-1){
+                result.append(" ");
+            }
+        }
+
+        return result.toString();
+    }
+
 
 }
