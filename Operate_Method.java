@@ -73,5 +73,53 @@ public class Operate_Method {
         return result.toString();
     }
 
+    public static String MathEvaluator(String [] calculate){
+        
+        String postFix = reversePolishNotation(calculate);
+        Stack stackOperation = new Stack();
+        String output = "";
+        String[] operations = postFix.split(" ");
 
+        for(int i = 0; i < operations.length; i++){
+
+            if(isOperand(operations[i])){
+                stackOperation.push(operations[i]);
+            }else{
+                double x = Double.parseDouble(stackOperation.pop());
+                double y = Double.parseDouble(stackOperation.pop());
+                double result = 0;
+                
+                switch (operations[i]) {
+                    case "^":
+                        result = Math.pow(x, y);
+                        break;
+                    case "*":
+                        result = x * y;
+                        break;
+                    case "/":
+                        result = x / y;
+                        break;
+                    case "+":
+                        result = x + y;
+                        break;
+                    case "-":
+                        result = x - y;
+                        break;
+                    case "==":
+                    case "!=":
+			        case ">=":
+			        case ">":
+			        case "<=":
+			        case "<":
+                        output = " " + x + " " + operations[i] + " " + y;
+                        return output; 
+                    default:
+                        break;
+                }
+                stackOperation.push(String.valueOf(result));
+            }
+        }
+        output = stackOperation.peek();
+        return output;
+    }
 }
