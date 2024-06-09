@@ -1,54 +1,42 @@
+import java.util.Stack;
+
 public class Operate_Method {
-    
-    public static String reversePolishNotation(String[] variable){
-        
+
+    public static String reversePolishNotation(String[] variable) {
         StringBuilder arrangeOperation = new StringBuilder();
-        Stack opStack = new Stack();
+        Stack<String> opStack = new Stack<>();
 
-        for(String op: variable){
-
-            if(isOperand(op)){
-
+        for (String op : variable) {
+            if (isOperand(op)) {
                 arrangeOperation.append(op).append(" ");
-
-            }else if(op.equals("(")){
-
+            } else if (op.equals("(")) {
                 opStack.push(op);
-
-            }else if(op.equals(")")){
-
-                while(!opStack.isEmpty() && !opStack.peek().equals("()")){
-
+            } else if (op.equals(")")) {
+                while (!opStack.isEmpty() && !opStack.peek().equals("(")) {
                     arrangeOperation.append(opStack.pop()).append(" ");
-
-                }if(!opStack.isEmpty()){
-
+                }
+                if (!opStack.isEmpty()) {
                     opStack.pop();
                 }
-
-            }else{
-
-                while(!opStack.isEmpty() && operator(op) <= operator(opStack.peek())){
-
+            } else {
+                while (!opStack.isEmpty() && operator(op) <= operator(opStack.peek())) {
                     arrangeOperation.append(opStack.pop()).append(" ");
                 }
-
                 opStack.push(op);
             }
         }
 
-        while(!opStack.isEmpty()){
-
+        while (!opStack.isEmpty()) {
             arrangeOperation.append(opStack.pop()).append(" ");
         }
         return arrangeOperation.toString().trim();
     }
 
-    private static boolean isOperand(String variable){
-        return variable.matches("[a-zA-Z0-9]") || variable.equals("$");
+    private static boolean isOperand(String variable) {
+        return variable.matches("[a-zA-Z0-9]+") || variable.equals("$");
     }
 
-    private static int operator(String operator){
+    private static int operator(String operator) {
         switch (operator) {
             case ">":
             case ">=":
@@ -57,9 +45,6 @@ public class Operate_Method {
             case "<":
             case "<=":
                 return 0;
-            case "(":
-            case ")":
-                return -1;
             case "+":
             case "-":
                 return 1;
@@ -68,44 +53,28 @@ public class Operate_Method {
                 return 2;
             case "^":
                 return 3;
+            case "(":
+            case ")":
+                return -1;
             default:
-                throw new IllegalArgumentException("Operator Invalid: " + null);
+                throw new IllegalArgumentException("Operator Invalid: " + operator);
         }
     }
 
-    public static String toString(String[] printOperand){
-        
-        StringBuilder result = new StringBuilder();
-        for(int i = 0; i < printOperand.length; i++){
-        
-            result.append(printOperand[i]);
-            if(i < printOperand.length-1){
-
-                result.append(" ");
-            }
-        }
-        return result.toString();
-    }
-
-    public static String MathEvaluator(String [] calculate){
-        
+    public static String MathEvaluator(String[] calculate) {
         String postFix = reversePolishNotation(calculate);
-        Stack stackOperation = new Stack();
-        String output = "";
+        Stack<Double> stackOperation = new Stack<>();
         String[] operations = postFix.split(" ");
 
-        for(int i = 0; i < operations.length; i++){
-
-            if(isOperand(operations[i])){
-
-                stackOperation.push(operations[i]);
-            }else{
-
-                double x = Double.parseDouble(stackOperation.pop());
-                double y = Double.parseDouble(stackOperation.pop());
+        for (String operation : operations) {
+            if (isOperand(operation)) {
+                stackOperation.push(Double.parseDouble(operation));
+            } else {
+                double y = stackOperation.pop();
+                double x = stackOperation.pop();
                 double result = 0;
-                
-                switch (operations[i]) {
+
+                switch (operation) {
                     case "^":
                         result = Math.pow(x, y);
                         break;
@@ -122,20 +91,23 @@ public class Operate_Method {
                         result = x - y;
                         break;
                     case "==":
+                        return String.valueOf(x == y);
                     case "!=":
-			        case ">=":
-			        case ">":
-			        case "<=":
-			        case "<":
-                        output = " " + x + " " + operations[i] + " " + y;
-                        return output; 
+                        return String.valueOf(x != y);
+                    case ">=":
+                        return String.valueOf(x >= y);
+                    case ">":
+                        return String.valueOf(x > y);
+                    case "<=":
+                        return String.valueOf(x <= y);
+                    case "<":
+                        return String.valueOf(x < y);
                     default:
-                        break;
+                        throw new IllegalArgumentException("Operator Invalid: " + operation);
                 }
-                stackOperation.push(String.valueOf(result));
+                stackOperation.push(result);
             }
         }
-        output = stackOperation.peek();
-        return output;
+        return String.valueOf(stackOperation.pop());
     }
 }

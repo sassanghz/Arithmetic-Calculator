@@ -1,74 +1,60 @@
 
 public class Stack {
 
-	private String [] stack;
-	private int size;
-	
-	public Stack(){
-		this.stack = new String[1];
-		this.size = -1;
-	}
+    private String [] stack;
+    private int size;
 
-	public int size() {
-		return size;
-	}
+    public Stack(){
+        this.stack = new String[1];
+        this.size = 0;
+    }
 
-	public boolean isEmpty() {
-		return (size == 0);
-	}
+    public int size() {
+        return size;
+    }
 
-	public void push(String value){
-		if(this.size+1 == this.stack.length){
-			this.resize();
-		}
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
-		this.size++;
-		this.stack[this.size] = value;
-	}
+    public void push(String value){
+        if(this.size == this.stack.length){
+            this.resize();
+        }
+        this.size++;
+        this.stack[this.size] = value;
+    }
 
-	public void resize() {
-		int stackSize = this.stack.length;
-		String[] sizeArray = new String[stackSize*2];
-		
-		for(int i = 0; i < stackSize; i++){
-			sizeArray[i] = this.stack[i];
-		}
+    public void resize() {
+        int stackSize = this.stack.length;
+        String[] sizeArray = new String[stackSize*2];
 
-		this.stack = new String[stackSize*2];
-		this.stack = sizeArray;
-	}
+        System.arraycopy(this.stack, 0, sizeArray, 0, stackSize);
+        this.stack = sizeArray;
+    }
 
-	public String pop() {
-		if (isEmpty()) return null;
-		
-		String lastElem = this.stack[this.size];
-		this.stack[this.size] = null;
-		this.size--;
-		return lastElem;
-	}
+    public String pop() {
+        if (isEmpty()) return null;
 
-	public String peek(){
-		if(isEmpty()) return null;
-		return this.stack[this.size];
-	}
+        String lastElem = this.stack[this.size];
+        this.stack[this.size] = null;
+        this.size--;
+        return lastElem;
+    }
 
-	public void newSize(){
-		String [] newSTK = new String[this.size+1];
+    public String peek(){
+        if(isEmpty()) return null;
+        return this.stack[this.size-1];
+    }
 
-		for(int i = 0; i < newSTK.length; i++){
-			newSTK[i] = this.stack[i];
-		}
+    public void printStack(){
+        System.out.println("\nLast stack : " + this.size);
+        System.out.println("Elements in the following stacks are listed : ");
 
-		this.stack = newSTK;
-	}
-
-	public void printStack(){
-		System.out.println("\nLast stack : " + this.size);
-		System.out.println("Elements in the following stacks are listed : ");
-
-		for(int i = 0; i < this.size+1; i++){
-			System.out.print(this.stack[i] + ", ");
-		}
-	}
+        for(int i = 0; i < this.size; i++){
+            System.out.print(this.stack[i] + ", ");
+        }
+        System.out.println();
+    }
 
 }
