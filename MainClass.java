@@ -1,17 +1,28 @@
 import java.io.*;
-public class main {
+public class MainClass{
 
 	public static void main(String[] args) {
 		
-		 String [] postfix = readFile();
+		 String [] postfix = readFile("input.txt");
 
-		 if(postfix != null || !postfix.isEmpty()){
-			String postinfix = Operate_Method.reversePolishNotation(postfix);
-		 }
-		 System.out.println("Postfix: " + postfix);
- 
-		 double result = Operate_Method.MathEvaluator(postfix);
-		 System.out.println("Result: " + result);
+		 try{
+			BufferedWriter writer = new BufferedWriter(new FileWriter("src/input.txt"));
+			
+			for(int i = 0; i < postfix.length; i++){
+				if(postfix[i] != null){
+					writer.write(postfix[i] + "\n");
+
+					String[] equations = postfix[i].split(" ");
+					String calculate = Operate_Method.MathEvaluator(equations);
+					System.out.println(calculate);
+
+					writer.write("Answer: " + calculate + "\n");
+				}
+			}
+			writer.close();
+		}catch (IOException e){
+			System.out.println("Error: " + e.getMessage());
+		}
 		
 	}
 
@@ -33,10 +44,6 @@ public class main {
 		}catch (IOException e){
 			System.out.println("Error: " + e.getMessage());
 		}
-		
 		return readOperations;
-	}
-
-
-	
+	}	
 }
