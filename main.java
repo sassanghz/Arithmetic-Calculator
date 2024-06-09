@@ -3,7 +3,11 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		 String postfix = Operate_Method.reversePolishNotation(readFile());
+		 String [] postfix = readFile();
+
+		 if(postfix != null || !postfix.isEmpty()){
+			String postinfix = Operate_Method.reversePolishNotation(postfix);
+		 }
 		 System.out.println("Postfix: " + postfix);
  
 		 double result = Operate_Method.MathEvaluator(postfix);
@@ -11,16 +15,17 @@ public class main {
 		
 	}
 
-	public static String readFile(){
-		StringBuilder readOperations = new StringBuilder();
+	public static String[] readFile(String filename){
+
+		String[] readOperations = new String[30];
 		BufferedReader br = null;
 
 		try{
-			br = new BufferedReader(new FileReader("input.txt"));
+			br = new BufferedReader(new FileReader(filename));
 			String line;
-
-			while((line = br.readLine()) != null){
-				readOperations.append(line).append(" ");
+			int index = 0;
+			while((line = br.readLine()) != null && index < 30){
+				readOperations[index++] = line;
 			}
 			br.close();
 		}catch(FileNotFoundException e){
@@ -29,7 +34,7 @@ public class main {
 			System.out.println("Error: " + e.getMessage());
 		}
 		
-		return readOperations.toString().trim();
+		return readOperations;
 	}
 
 
